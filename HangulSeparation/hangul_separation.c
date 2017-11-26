@@ -2,28 +2,28 @@
 #include <windows.h> 
 #include <locale.h>
 
-//ÃÊ¼º 
-static const wchar_t wcHead[] = { L'¤¡', L'¤¢', L'¤¤', L'¤§',
-L'¤¨', L'¤©', L'¤±', L'¤²',
-L'¤³', L'¤µ', L'¤¶', L'¤·',
-L'¤¸', L'¤¹', L'¤º', L'¤»',
-L'¤¼', L'¤½', L'¤¾' };
+//ì´ˆì„± 
+static const wchar_t wcHead[] = { L'ã„±', L'ã„²', L'ã„´', L'ã„·',
+L'ã„¸', L'ã„¹', L'ã…', L'ã…‚',
+L'ã…ƒ', L'ã……', L'ã…†', L'ã…‡',
+L'ã…ˆ', L'ã…‰', L'ã…Š', L'ã…‹',
+L'ã…Œ', L'ã…', L'ã…' };
 
-//Áß¼º 
-static const wchar_t wcMid[] = { L'¤¿', L'¤À', L'¤Á', L'¤Â',
-L'¤Ã', L'¤Ä', L'¤Å', L'¤Æ',
-L'¤Ç', L'¤È', L'¤É', L'¤Ê',
-L'¤Ë', L'¤Ì', L'¤Í', L'¤Î',
-L'¤Ï', L'¤Ğ', L'¤Ñ', L'¤Ò', L'¤Ó' };
+//ì¤‘ì„± 
+static const wchar_t wcMid[] = { L'ã…', L'ã…', L'ã…‘', L'ã…’',
+L'ã…“', L'ã…”', L'ã…•', L'ã…–',
+L'ã…—', L'ã…˜', L'ã…™', L'ã…š',
+L'ã…›', L'ã…œ', L'ã…', L'ã…',
+L'ã…Ÿ', L'ã… ', L'ã…¡', L'ã…¢', L'ã…£' };
 
-//Á¾¼º 
-static const wchar_t wcTail[] = { L' ', L'¤¡', L'¤¢', L'¤£',
-L'¤¤', L'¤¥', L'¤¦', L'¤§',
-L'¤©', L'¤ª', L'¤«', L'¤¬',
-L'¤­', L'¤®', L'¤¯', L'¤°',
-L'¤±', L'¤²', L'¤´', L'¤µ',
-L'¤¶', L'¤·', L'¤¸', L'¤º',
-L'¤»', L'¤¼', L'¤½', L'¤¾' };
+//ì¢…ì„± 
+static const wchar_t wcTail[] = { L' ', L'ã„±', L'ã„²', L'ã„³',
+L'ã„´', L'ã„µ', L'ã„¶', L'ã„·',
+L'ã„¹', L'ã„º', L'ã„»', L'ã„¼',
+L'ã„½', L'ã„¾', L'ã„¿', L'ã…€',
+L'ã…', L'ã…‚', L'ã…„', L'ã……',
+L'ã…†', L'ã…‡', L'ã…ˆ', L'ã…Š',
+L'ã…‹', L'ã…Œ', L'ã…', L'ã…' };
 
 int BreakHangul(wchar_t *str, wchar_t *cho_buffer, wchar_t *buffer, UINT nSize)
 {
@@ -68,25 +68,25 @@ void MergeHangul(wchar_t *buffer, wchar_t *str, UINT pos) {
 	UINT cho = 0, jung = 0, jong = 0;
 
 	for (i = 0; i < pos; i++) {
-		if (isascii(buffer[i])) {	// ¾Æ½ºÅ°ÄÚµåÀÏ °æ¿ì
+		if (isascii(buffer[i])) {	// ì•„ìŠ¤í‚¤ì½”ë“œì¼ ê²½ìš°
 			str[idx++] = buffer[i];
 		}
-		else {  // ÇÑ±ÛÀÏ °æ¿ì
-			// ÃÊ¼º
+		else {  // í•œê¸€ì¼ ê²½ìš°
+			// ì´ˆì„±
 			for (cho_i = 0; cho_i < 19; cho_i++) {
 				if (wcHead[cho_i] == buffer[i]) {
 					cho = cho_i;
 					break;
 				}
 			}
-			// Áß¼º
+			// ì¤‘ì„±
 			for (jung_i = 0; jung_i < 21; jung_i++) {
 				if (wcMid[jung_i] == buffer[i + 1]) {
 					jung = jung_i;
 					break;
 				}
 			}
-			// Á¾¼º
+			// ì¢…ì„±
 			for (jong_i = 0; jong_i < 28; jong_i++) {
 				if (wcTail[jong_i] == buffer[i + 2]) {
 					jong = jong_i;
@@ -105,25 +105,25 @@ void MergeHangul(wchar_t *buffer, wchar_t *str, UINT pos) {
 
 int main()
 {
-	wchar_t *str = L"ÀÌ a¹®bÀåcÀº hangulÀÔ´Ï´Ù.";
+	wchar_t *str = L"ì´ aë¬¸bì¥cì€ hangulì…ë‹ˆë‹¤.";
 	wchar_t buffer[4096];
 	wchar_t cho_buffer[4096];
 	wchar_t *str_buffer[4096];
 
 	UINT pos;
 
-	ZeroMemory(str_buffer, 4069);  // 0À¸·Î ÃÊ±âÈ­
+	ZeroMemory(str_buffer, 4069);  // 0ìœ¼ë¡œ ì´ˆê¸°í™”
 
 	setlocale(LC_ALL, "Korean");
 
 	pos = BreakHangul(str, cho_buffer, buffer, sizeof buffer);
 	
-	printf("1. ÃÊ¼º : %S\n", cho_buffer);
-	printf("2. ÃÊ¼º/Áß¼º/Á¾¼º : %S\n", buffer);
+	printf("1. ì´ˆì„± : %S\n", cho_buffer);
+	printf("2. ì´ˆì„±/ì¤‘ì„±/ì¢…ì„± : %S\n", buffer);
 
 	MergeHangul(buffer, str_buffer, pos);
 
-	printf("3. ¹®Àå : %S\n", str_buffer);
+	printf("3. ë¬¸ì¥ : %S\n", str_buffer);
 
 	return 0;
 }
